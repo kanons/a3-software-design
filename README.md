@@ -117,6 +117,6 @@ If the tooltip size is 0, the tooltip text will not display.
 
 #### .showLabels(*boolean*)
 
-If *false*, the labels of the slices are not shown. Default show labels is true.
+If *true*, the labels of the slices are not shown. Default show labels is false.
 If the parameter of `.showLabels()` is not specified, returns boolean.
 
