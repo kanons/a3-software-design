@@ -1,26 +1,73 @@
-# a3-software-design
+# a3-software-design | Donut Chart
 
-## Donut Chart
-
-DonutChart.js uses the D3 JavaScript library to render a **donut chart**.
+DonutChart.js uses the D3 JavaScript library to render a **donut chart**. The donut chart is best fit for smaller datasets to effectively visualize the composition of the data.
 
 ## Getting Started
+
+### Setup
+
+In the  `<head>`  of your html file, include the following:
+
+```html
+<!-- D3 Libray -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.js"></script>
+
+<!-- Donut Chart script file -->
+<script src="DonutChart.js"></script>
+```
+
+### Data Prep
+
+*DonutChart.js* uses mapped datasets or arrays to display data. 
+
+The datasets used for DonutChart.js may look something like this:
+
+```
+age, population, family, count
+<5, 2704659, a, 1
+5-13, 4499890, b, 1
+14-17, 2159981, c, 2
+18-24, 3853788, d, 2
+25-44, 14106543, e, 1
+45-64, 8819342, f, 1
+≥65, 612463, g, 2
+```
+
+To prepare the data, load in your data and use the following method:
+
+```js
+var prepData = function() {
+    chartData = data.map(function(d) {
+        return {
+            // Value is a data variable used to determine the size of the slices
+            sliceVal: d[value],
+
+            // Category is a data variable used to determine the number of slices
+            sliceCat: d[category],
+        };
+    });
+};
+
+prepData();
+```
+
+### Initialize, Draw, Update
 
 To get started on rendering the chart, use the following approach:
 
 ```js
+// Set chart parameters using methods
 var myChart = donutChart().param1(value1).param2(value2);
 
+// Initialize and draw
 var chartWrapper = d3.select('#my-div')
                 .datum([dataSet]) 
                 .call(myChart); 
 ```
+
 To update the data or parameters, use:
 
 ```js
-// Initiation of chart
-var chartWrapper = d3.select('#my-div').datum([dataSet]).call(myChart); 
-
 // Update a chart parameter and the data (on some event handler)
 myChart.param1(newValue);
 chartWrapper.datum([newDataSet]).call(myChart);
@@ -28,56 +75,48 @@ chartWrapper.datum([newDataSet]).call(myChart);
 
 ## API Reference
 
-**.width**(*int*)
+#### .width(*int*)
 
-Sets the *width* of the svg.
-If *width* is not specified, the default width is 600.
+Sets the *width* of the svg. The default width is 600.
+If the parameter of `.width()` is not specified, returns width.
 
-**.height**(*int*)
+#### .height(*int*)
 
-Sets the *height* of the svg.
-If *height* is not specified, the default height is 600.
+Sets the *height* of the svg. The default height is 600.
+If the parameter of `.height()` is not specified, returns height.
 
-**.sliceVal**(*string*)
+#### .title(*string*)
 
-Sets the variable used for the *values* of chart slices.
-Must be called to successfully render chart.
+Sets the *title* of the donut chart. The title is undefined and will not show if method is not called with a value.
+If the parameter of `.title()` is not specified, returns title.
 
-**.sliceCat**(*string*)
+#### .color(*Array[string]*)
 
-Sets the data variable used for the *slices* of the chart.
-Must be called to successfully render chart.
+Sets the *color array* for the colors of the slices. Default color is `d3.schemeCategory20c`.
+If the parameter of `.color()` is not specified, returns color array.
 
-**.title**(*string*)
+#### .padAngle(*int*)
 
-Sets the *title* of the donut chart.
-If *title* is not specified, the default title is empty.
+Sets the *pad angle* of chart slices. The default pad angle is 0.
+If the parameter of `.padAngle()` is not specified, returns pad angle.
 
-**.color**(*Array[string]*)
+#### .cornerRadius(*int*)
 
-Sets the *color array* of the fill of slice paths.
-If *color* is not specified, the default color array is *d3.schemeCategory20c*.
-
-**.padAngle**(*int*)
-
-Sets the *pad angle* of chart slices.
-If *padAngle* is not specified, the default pad angle is 0.
-
-**.cornerRadius**(*int*)
-
-Sets the *corner radius* of chart slices. 
-If *cornerRadius* is not specified, the default corner radius is 0.
+Sets the *corner radius* of chart slices.  Defualt corner radius is 0.
+If the parameter of `.cornerRadius()` is not specified, returns corner radius.
 
 If the corner radius is greater than zero, the corners of the arc are rounded using circles of the
 given radius.
 
-**.showLabels**(*boolean*)
+#### .tooltipSize(*string*)
 
-If *false*, the labels of the slices are not shown. If *true* or not specified, the labels of the slices
-are shown.
+Sets the *font size* of the tooltip text. Default size is `1.5em`.
+If the parameter of `.tooltipSize()` is not specified, returns tooltip font size.
 
-**.showTooltip**(*boolean*)
+If the tooltip size is 0, the tooltip text will not display.
 
-If *false*, the tooltip of the chart is not shown. If *true* or not specified, the tooltip of the chart
-is shown.
+#### .showLabels(*boolean*)
+
+If *false*, the labels of the slices are not shown. Default show labels is true.
+If the parameter of `.showLabels()` is not specified, returns boolean.
 
